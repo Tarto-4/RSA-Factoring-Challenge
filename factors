@@ -1,21 +1,26 @@
-#!/usr/bin/env bash
+import math
 
-def add_integer(a, b=98):
-    """
-    Adds two integers or floats and returns an integer.
+def factors(filename):
+    with open(filename, 'r') as f:
+        for line in f:
+            n = int(line.strip())
+            if n == 1:
+                print(f"1=1*1")
+                continue
+            sqrt_n = math.isqrt(n)
+            if sqrt_n * sqrt_n == n:
+                print(f"{n}={sqrt_n}*{sqrt_n}")
+            else:
+                for i in range(2, sqrt_n + 1):
+                    if n % i == 0:
+                        print(f"{n}={i}*{n//i}")
+                        break
+                else:
+                    print(f"{n}=1*{n}")
 
-    Args:
-        a (int or float): The first number to add.
-        b (int or float, optional): The second number to add. Defaults to 98.
-
-    Raises:
-        TypeError: If a or b is not an integer or float.
-
-    Returns:
-        int: The sum of a and b, casted to an integer.
-    """
-    if not isinstance(a, (int, float)):
-        raise TypeError("a must be an integer")
-    if not isinstance(b, (int, float)):
-        raise TypeError("b must be an integer")
-    return int(a + b)
+if __name__ == "__main__":
+    import sys
+    if len(sys.argv) != 2:
+        print("Usage: factors <file>")
+        sys.exit(1)
+    factors(sys.argv[1])
